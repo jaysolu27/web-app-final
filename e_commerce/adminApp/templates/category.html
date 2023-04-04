@@ -1,0 +1,147 @@
+{% extends "admin_index.html" %}
+{% load static %}
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row">
+    
+    <div class="col-11">
+      
+      <div class="card my-4">
+        <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+          <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+            <h6 class="text-white text-capitalize ps-3">category List</h6>
+          </div>
+        </div>
+        
+        <div class="card-body">
+          {% if code == 200 or code == 201 and status %}
+          <div class="alert alert-success" role="alert">
+            <strong>{{status}}</strong>
+          </div>
+          {% elif code != 200 and status %}
+          <div class="alert alert-danger" role="alert">
+            <strong>{{status}}</strong>
+          </div>
+          {% endif %}
+          <div class="table-responsive p-0">
+            <table class="table align-items-center mb-0">
+              <thead>
+                <tr>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">category Name</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Description</th>
+                  <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Image</th> -->
+                  <th class="text-secondary opacity-7"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for category in category_lst %}
+                <tr>
+                  <td>
+                    <div class="d-flex px-2 py-1">
+                      <div class="d-flex flex-column justify-content-center">
+                        <h6 class="mb-0 text-sm">{{category.c_name}}</h6>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <p class="text-xs font-weight-bold mb-0">{{category.c_desc}}</p>
+                  </td>
+                  <!-- <td class="align-middle text-center text-sm">
+                    <div>
+                      <img src="{% static 'admin/assets/img/small-logos/logo-xd.svg' %}" class="avatar avatar-sm me-3" alt="xd">
+                    </div>
+                  </td> -->
+    
+                  <td class="align-middle">
+                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick='edit_category("{{category}}")'>
+                      Edit
+                    </a>
+                  </td>
+                   
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn bg-gradient-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Create New Category
+  </button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title font-weight-normal" id="exampleModalLabel">Create Category</h5>
+          <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="category_frm_id" method="post">
+            {% csrf_token %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group input-group-outline my-3">
+                  <label class="form-label">Name</label>
+                  <input type="text" id="c_name" name="c_name" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group input-group-outline my-3">
+                  <input type="hidden" id="type_id" name="type_id" value="" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <div class="input-group input-group-outline is-valid my-3">
+                  <textarea id="c_desc" placeholder="description" name="c_desc" class="form-control"></textarea>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-md-12">
+                <div class="input-group input-group-outline my-3">
+                  <input type="file" class="form-control">
+                </div>
+              </div>
+            </div> -->
+            <div class="modal-footer">
+              <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="submit" class="btn bg-gradient-primary" name="form1-submit">Save</button>
+              
+              <button type="submit" class="btn btn-warning" onclick='set_id("{{category}}")' name="form2-delete">Delete</button>
+            </div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+  function edit_category(category){
+    category = category.replace(/'/g, '"');
+    category = JSON.parse(category);
+    document.getElementById("c_name").value = category['c_name'];
+    document.getElementById("c_desc").value = category['c_desc'];
+    document.getElementById("type_id").value = category['id'];
+
+    console.log(category['b_desc']);
+  }
+
+  function set_id(category){
+    category = category.replace(/'/g, '"');
+    category = JSON.parse(category);
+    document.getElementById("type_id").value = category['id'];
+  }
+</script>
+{% endblock %}

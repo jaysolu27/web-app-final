@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/5fe73287-46f2-4a68-bcc5-987b653ed17f/resourceGroups/WebApp/providers/Microsoft.Web/sites/malefashionshop",
+    "appService.deploySubpath": "."
+}

@@ -1,0 +1,238 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Male_Fashion Template">
+    <meta name="keywords" content="Male_Fashion, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="{% static 'admin/assets/img/apple-icon.png' %}">
+    <link rel="icon" type="image/png" href="{% static 'admin/assets/img/favicon.png' %}">
+    <title>Male-Fashion</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
+    rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/elegant-icons.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/nice-select.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/slicknav.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Header Section Begin -->
+    <header class="header">
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__logo">
+                        <a href="{% url 'home_page' %}"><img src="{% static 'img/logo.png' %}" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li><a href="{% url 'home_page' %}">Home</a></li>
+                            <li class=""><a href="{% url 'shop_page' %}">Shop</a></li>
+                 
+                            <li class="active"><a href="#">Order Details</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__nav__option">
+                        
+                        <a href="{% url 'cart_view' %}"><img src="{% static 'img/icon/cart.png' %}" alt=""> <span>0</span>
+                            <div class="price" style="margin-left: 0.6em;">cart</div>
+                        </a>
+                        <a href="#" style="padding-left: 6em;margin-right: 0.5em;"> <div class="price">{{user_name}}</div></a>
+                        <a href="{% url 'logout_page' %}" style="color: inherit;text-decoration: none;"><i style="cursor: pointer;"  class="fas fa-sign-out-alt"></i></a>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="canvas__open"><i class="fa fa-bars"></i></div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>Order Details</h4>
+                        <div class="breadcrumb__links">
+                            <a href="{% url 'cart_view' %}">Cart</a>
+                            <span>Order details</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+
+    <!-- Shopping Cart Section Begin -->
+    <section class="shopping-cart spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shopping__cart__table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Address</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Date Time</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if success == True %}
+                                <div class="alert alert-success" role="alert">
+                                    <strong>Order Placed Successfully</strong>
+                                </div>
+                                                              
+                                {% endif %}
+                                {% for item in order_lst %}
+                                <form id="form_{{ forloop.counter }}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="cart_id" id="cart_id" value="{{item.cart_id}}">
+                                    <tr>
+                                        <td class="product__cart__item">
+                                            <div class="product__cart__item__pic">
+                                                <img src="{{item.product_img}}" style="width: 100px;" alt="">
+                                            </div>
+                                            <div class="product__cart__item__text">
+                                                <h6>{{item.product_name}}</h6>
+                                         
+                                            </div>
+                                        </td>
+                                        <td class="cart__price">
+                                                <div class="product__cart__item__text">
+                                                <h6>{{item.address}}</h6>
+                                            </div>
+                                        </td>
+                                        <td class="quantity__item">
+                                            <div class="quantity">
+                                                <div class=""  >
+                                                    <input style="border: none; font-weight: bold; margin-left: 2em;" type="text" id="cnt_id" value="{{ item.product_count }}">
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cart__price">
+                                            <div class="product__cart__item__text">
+                                            <h6>{{item.product_price}}</h6>
+                                        </div>
+                                    </td>
+                                    <td class="cart__price">
+                                        <div class="product__cart__item__text">
+                                        <h6>{{item.date_time}}</h6>
+                                    </div>
+                                </td>
+                                
+                                    </tr>
+                                </form>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="continue__btn">
+                                <a href="{% url 'shop_page' %}">Continue Shopping</a>
+                            </div>
+                        </div>
+      
+                    </div>
+                </div>
+         
+            </div>
+        </div>
+    </section>
+    <!-- Shopping Cart Section End -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__logo">
+                            <a href="#"><img src="{% static 'img/footer-logo.png' %}" alt=""></a>
+                        </div>
+                        <p>The customer is at the heart of our unique business model, which includes design.</p>
+                        <a href="#"><img src="{% static 'img/payment.png' %}" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+                        <ul>
+                            <li><a href="{% url 'about_us' %}">About Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-3 col-sm-6">
+                    <div class="footer__widget">
+       
+                        <ul>
+                            <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+         
+                        </ul>
+                    </div>
+                </div>
+ 
+            </div>
+
+        </div>
+    </footer>
+    <!-- Search End -->
+    <script>
+        function recalculate_price(ogPrice, totalPrice){
+            var no_of_itm = $('#cnt_id').val();
+            var newPrice = parseInt(no_of_itm)*ogPrice;
+            $('.cart__price').text(newPrice);
+        }
+
+        const input = document.getElementById('cnt_id');
+  
+        // Add an event listener to detect changes in the input value
+        input.addEventListener('input', function(event) {
+            var no_of_itm = $('#cnt_id').val();
+            var newPrice = parseInt(no_of_itm)*ogPrice;
+            $('.cart__price').text(newPrice);
+        });
+    </script>
+    <!-- Js Plugins -->
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nice-select.min.js' %}"></script>
+    <script src="{% static 'js/jquery.nicescroll.min.js' %}"></script>
+    <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'js/jquery.countdown.min.js' %}"></script>
+    <script src="{% static 'js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'js/mixitup.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+{% static '</body>' %}
+</html>
